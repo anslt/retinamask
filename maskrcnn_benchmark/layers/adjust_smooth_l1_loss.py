@@ -2,7 +2,7 @@
 import torch
 from torch import nn
 import logging
-import torch.distributed as dist
+from torch.distributed import deprecated as dist
 
 class AdjustSmoothL1Loss(nn.Module):
 
