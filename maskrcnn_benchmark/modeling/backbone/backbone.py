@@ -90,7 +90,7 @@ def build_backbone(cfg):
     #    "R-"
     #), "Only ResNet and ResNeXt models are currently implemented"
     # Models using FPN end with "-FPN"
-    if cfg.MODEL.BACKBONE.CONV_BODY("Efficient"):
+    if cfg.MODEL.BACKBONE.CONV_BODY == "EfficientNet":
         return build_efficient_backbone(cfg)
 
 

@@ -2,9 +2,9 @@ import torch.nn as nn
 import torch
 from torchvision.ops.boxes import nms as nms_torch
 
-from efficientnet import EfficientNet as EffNet
-from efficientnet.utils import MemoryEfficientSwish, Swish
-from efficientnet.utils_extra import Conv2dStaticSamePadding, MaxPool2dStaticSamePadding
+from .efficientnet import EfficientNet as EffNet
+from .utils import MemoryEfficientSwish, Swish
+from .utils_extra import Conv2dStaticSamePadding, MaxPool2dStaticSamePadding
 
 
 def nms(dets, thresh):
@@ -387,8 +387,8 @@ class EfficientNet(nn.Module):
 
     def __init__(self, cfg):
         super(EfficientNet, self).__init__()
-        compound_coef = cfg.MODEL.EfficientNet.COEF
-        load_weights = cfg.MODEL.EfficientNet.LOAD_WEIGHTS #default False
+        compound_coef = cfg.EfficientNet.COEF
+        load_weights = cfg.EfficientNet.LOAD_WEIGHTS #default False
         model = EffNet.from_pretrained(f'efficientnet-b{compound_coef}', load_weights)
         del model._conv_head
         del model._bn1
