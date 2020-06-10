@@ -4,7 +4,7 @@ from .retinanet import RetinaNet
 from .efficientdet import EfficientDet
 
 _DETECTION_META_ARCHITECTURES = {"GeneralizedRCNN": GeneralizedRCNN,
-                                 "RetinaNet": RetinaNet
+                                 "RetinaNet": RetinaNet,
                                  "EfficientDet": EfficientDet}
 
 

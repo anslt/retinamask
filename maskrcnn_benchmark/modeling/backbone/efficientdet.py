@@ -387,8 +387,8 @@ class EfficientNet(nn.Module):
 
     def __init__(self, cfg):
         super(EfficientNet, self).__init__()
-        compound_coef = cfg.EfficientNet.COEF
-        load_weights = cfg.EfficientNet.LOAD_WEIGHTS #default False
+        compound_coef = cfg.EffICIENTNET.COEF
+        load_weights = cfg.EffICIENTNET.LOAD_WEIGHTS #default False
         model = EffNet.from_pretrained(f'efficientnet-b{compound_coef}', load_weights)
         del model._conv_head
         del model._bn1
