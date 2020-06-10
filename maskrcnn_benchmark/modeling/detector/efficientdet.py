@@ -25,7 +25,7 @@ class EfficientDet(nn.Module):
     """
 
     def __init__(self, cfg):
-        super(RetinaNet, self).__init__()
+        super(EfficientDet, self).__init__()
         self.cfg = copy.deepcopy(cfg)
         self.backbone = build_backbone(cfg)
         self.rpn = build_retinanet(cfg)
