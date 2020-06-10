@@ -5,6 +5,13 @@ from torch import nn
 
 from . import fpn as fpn_module
 from . import resnet
+from . import efficientdet
+
+def build_efficient_backbone(cfg):
+    body = efficientdet.EfficientNet(cfg)
+    model = nn.Sequential(OrderedDict([("body", body)]))
+    return model
+
 
 
 def build_resnet_backbone(cfg):
@@ -51,12 +58,6 @@ def build_resnet_fpn_p3p7_backbone(cfg):
     return model
 
 
-_BACKBONES = {"resnet": build_resnet_backbone,
-              "resnet-fpn": build_resnet_fpn_backbone,
-              "resnet-fpn-retina": build_resnet_fpn_p3p7_backbone,
-             }
-
-
 def build_resnet_fpn_p2p7_backbone(cfg):
     body = resnet.ResNet(cfg)
     in_channels_stage2 = cfg.MODEL.RESNETS.RES2_OUT_CHANNELS
@@ -79,15 +80,20 @@ def build_resnet_fpn_p2p7_backbone(cfg):
 _BACKBONES = {"resnet": build_resnet_backbone,
               "resnet-fpn": build_resnet_fpn_backbone,
               "resnet-fpn-retina": build_resnet_fpn_p3p7_backbone,
+              "efficient": build_efficient_backbone
              }
 
 
 
 def build_backbone(cfg):
-    assert cfg.MODEL.BACKBONE.CONV_BODY.startswith(
-        "R-"
-    ), "Only ResNet and ResNeXt models are currently implemented"
+    #assert cfg.MODEL.BACKBONE.CONV_BODY.startswith(
+    #    "R-"
+    #), "Only ResNet and ResNeXt models are currently implemented"
     # Models using FPN end with "-FPN"
+    if cfg.MODEL.BACKBONE.CONV_BODY("Efficient"):
+        return build_efficient_backbone(cfg)
+
+
     if cfg.MODEL.BACKBONE.CONV_BODY.endswith("-FPN"):
         if cfg.RETINANET.RETINANET_ON:
             if cfg.RETINANET.BACKBONE == "p3p7":

@@ -1,5 +1,5 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
-r"""
+"""
 Basic training script for PyTorch
 """
 
@@ -26,7 +26,7 @@ from maskrcnn_benchmark.utils.logger import setup_logger
 from maskrcnn_benchmark.utils.miscellaneous import mkdir
 
 
-def train(cfg, local_rank, distributed):
+def train(cfg, local_rank, distributed,head_only):
     model = build_detection_model(cfg)
     device = torch.device(cfg.MODEL.DEVICE)
     model.to(device)
@@ -71,6 +71,7 @@ def train(cfg, local_rank, distributed):
         device,
         checkpoint_period,
         arguments,
+        head_only
     )
 
     return model
@@ -123,12 +124,19 @@ def main():
         action="store_true",
     )
     parser.add_argument(
+        "--head_only",
+        help="only train head module",
+        type=bool,
+        default=False,
+    )
+
+    parser.add_argument(
         "opts",
         help="Modify config options using the command-line",
         default=None,
         nargs=argparse.REMAINDER,
     )
-
+    
     args = parser.parse_args()
 
     num_gpus = int(os.environ["WORLD_SIZE"]) if "WORLD_SIZE" in os.environ else 1
@@ -161,7 +169,7 @@ def main():
         logger.info(config_str)
     logger.info("Running with config:\n{}".format(cfg))
 
-    model = train(cfg, args.local_rank, args.distributed)
+    model = train(cfg, args.local_rank, args.distributed, args.head_only)
 
     if not args.skip_test:
         test(cfg, model, args.distributed)
