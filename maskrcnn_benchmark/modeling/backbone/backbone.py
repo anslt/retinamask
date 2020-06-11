@@ -8,7 +8,7 @@ from . import resnet
 from . import efficientdet
 
 def build_efficient_backbone(cfg):
-    body = efficientdet.EfficientNet(cfg)
+    body = efficientdet.EfficientDetBackbone(cfg)
     model = nn.Sequential(OrderedDict([("body", body)]))
     return model
 
