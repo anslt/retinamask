@@ -4,7 +4,7 @@ MODEL:
   RPN_ONLY: True
   BACKBONE:
     CONV_BODY: "EfficientNet"
-    OUT_CHANNELS: 256
+    OUT_CHANNELS: 64
   RPN:
     USE_FPN: True
     FG_IOU_THRESHOLD: 0.5
